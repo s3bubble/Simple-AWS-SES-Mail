@@ -10,6 +10,8 @@
  * License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  */ 
 
+if ( ! defined( 'ABSPATH' ) ) exit; 
+
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 require_once dirname( __FILE__ ) . '/includes/class-sasm-mail.php';
 require_once dirname( __FILE__ ) . '/includes/class-sasm-admin.php';

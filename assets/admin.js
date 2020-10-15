@@ -53,7 +53,7 @@ jQuery(document).ready( function($) {
          dataType : "json",
          url : sasm_admin.ajaxurl,
          data : {
-            action: "ssasm_clear_logs", 
+            action: "sasm_clear_logs", 
             nonce: sasm_admin.nonce
          },
          success: function(response) {
