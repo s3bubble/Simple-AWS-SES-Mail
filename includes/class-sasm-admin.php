@@ -22,6 +22,12 @@ class SASMAdmin {
 
     }
 
+    /**
+     * Registers a new post type to be used for logs
+     *
+     * @param null
+     * @return null
+     */
     public function register_post_type() {
  
         $log_args = array(
@@ -38,6 +44,12 @@ class SASMAdmin {
  
     }
 
+    /**
+     * Registers admin scripts
+     *
+     * @param null
+     * @return null
+     */
     public function admin_scripts() {
 
        	wp_register_style( 'sasm_admin', SASM_PLUGIN_URL . '/assets/admin.css', false, $this->version );
@@ -56,13 +68,25 @@ class SASMAdmin {
         );        
     
     }
- 
+    
+    /**
+     * Adds admin menu tot he tools menu in WordPress
+     *
+     * @param null
+     * @return null
+     */
     public function admin_menu() {
 
         add_management_page( 'SES Mail Logs', 'SES Mail Logs', 'install_plugins', 'output_logs', array( $this, 'output_logs' ), '' );
     
     }
 
+    /**
+     * Tools dashboard UI
+     *
+     * @param null
+     * @return null
+     */
     public function output_logs() {
     	
     	?>
@@ -122,6 +146,12 @@ class SASMAdmin {
 		<?php
     }
 
+    /**
+     * Enables logging
+     *
+     * @param null
+     * @return json
+     */
     public function enable_logs() {
     	
     	if ( !wp_verify_nonce( $_REQUEST['nonce'], 'sasm_admin_nonce')) {
@@ -154,6 +184,12 @@ class SASMAdmin {
 
     }
 
+    /**
+     * Clears logging
+     *
+     * @param null
+     * @return json
+     */
     public function clear_logs() {
     	
     	if ( !wp_verify_nonce( $_REQUEST['nonce'], 'sasm_admin_nonce')) {
@@ -180,6 +216,12 @@ class SASMAdmin {
 
     }
 
+    /**
+     * Sends a test html email
+     *
+     * @param null
+     * @return json
+     */
     public function send_test() {
     	
     	if ( !wp_verify_nonce( $_REQUEST['nonce'], 'sasm_admin_nonce')) {
