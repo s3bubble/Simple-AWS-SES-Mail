@@ -105,7 +105,7 @@ class SASMAdmin {
 					<button id="ses-enable-logs"><?php _e( 'Disable logs', 'simple-aws-ses-mail' ); ?></button>
 					<button id="ses-send-test-email"><?php _e( 'Send Test Email', 'simple-aws-ses-mail' ); ?></button>
 					<button id="ses-clear-logs"><?php _e( 'Clear Logs', 'simple-aws-ses-mail' ); ?></button>
-
+                    <button onClick="window.location.reload();"><?php _e( 'Refresh Logs', 'simple-aws-ses-mail' ); ?></button>
 					<div class="ses-logs">
 						<?php 
 
