@@ -3,6 +3,9 @@
 use Aws\Ses\SesClient;
 use Aws\Ses\Exception\SesException;
 
+/**
+ * Sends the AWS email with SES
+ */
 class SASMMail {
 
 	public function __construct(){

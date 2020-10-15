@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Adds admin menu logs and test email
+ */
 class SASMAdmin {
 
     protected $version;
