@@ -1,0 +1,21 @@
+{
+    "name": "sobytes/simple-aws-ses-mail",
+    "description": "Send all your WordPress emails through the powerful AWS SES Mail service",
+    "homepage": "https://github.com/samueleastdev/Simple-AWS-SES-Mail",
+    "keywords": [
+        "wordpress",
+        "ses",
+        "AWS"
+    ],
+    "license": "GPL-2.0+",
+    "support": {
+        "issues": "https://github.com/samueleastdev/Simple-AWS-SES-Mail/issues",
+        "source": "https://github.com/samueleastdev/Simple-AWS-SES-Mail"
+    },
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0",
+        "aws/aws-sdk-php": "3.*"
+    }
+}
