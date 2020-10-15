@@ -11,8 +11,8 @@
  */ 
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
-require_once dirname( __FILE__ ) . '/includes/class-ses-mail.php';
-require_once dirname( __FILE__ ) . '/includes/class-ses-admin.php';
+require_once dirname( __FILE__ ) . '/includes/class-sasm-mail.php';
+require_once dirname( __FILE__ ) . '/includes/class-sasm-admin.php';
 
 define( 'SASM_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SASM_PLUGIN_URL', plugins_url('', __FILE__) ); 
