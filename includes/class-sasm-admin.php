@@ -2,7 +2,11 @@
 
 class SASMAdmin {
 
+    protected $version;
+
 	public function __construct(){
+
+        $this->version = '0.0.1';
 
         add_action( 'init', array( $this, 'register_post_type' ), -1 );
 
@@ -36,11 +40,11 @@ class SASMAdmin {
 
     public function admin_scripts() {
 
-       	wp_register_style( 'sasm_admin', SASM_PLUGIN_URL . '/assets/admin.css', false, '1.0.0' );
+       	wp_register_style( 'sasm_admin', SASM_PLUGIN_URL . '/assets/admin.css', false, $this->version );
         
         wp_enqueue_style( 'sasm_admin' );
 
-        wp_register_script( 'sasm_admin', SASM_PLUGIN_URL . '/assets/admin.js',  array('jquery'), '1.0.0', true );
+        wp_register_script( 'sasm_admin', SASM_PLUGIN_URL . '/assets/admin.js',  array('jquery'), $this->version, true );
         
         wp_enqueue_script( 'sasm_admin' );
         
