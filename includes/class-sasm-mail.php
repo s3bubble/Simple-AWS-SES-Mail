@@ -123,19 +123,16 @@ class SASMMail {
         
             $message = json_encode($message); 
         
-        } 
-
-        $file = SASM_PLUGIN_PATH . 'logs/sasm_logs.log';
-
-        if(file_exists($file)){
-
-            $file = fopen( $file, 'a');
-        
-            fwrite($file, "\n" . date('Y-m-d h:i:s') . " :: " . $message); 
-        
-            fclose($file); 
-
         }
+ 
+        // store the log entry
+        $log_id = wp_insert_post( array(
+            'post_type'   => 'sasm_logs',
+            'post_status' => 'publish',
+            'post_parent' => 0,
+            'post_title' => 'log',
+            'post_content'=> $message
+        ) );
 
     }
 

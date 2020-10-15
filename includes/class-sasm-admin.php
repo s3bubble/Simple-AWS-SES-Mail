@@ -4,6 +4,8 @@ class SASMAdmin {
 
 	public function __construct(){
 
+        add_action( 'init', array( $this, 'register_post_type' ), -1 );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
@@ -14,6 +16,23 @@ class SASMAdmin {
 
         add_action( 'wp_ajax_sasm_send_test', array( $this, 'send_test' ));
 
+    }
+
+    public function register_post_type() {
+ 
+        /* logs post type */    
+ 
+        $log_args = array(
+            'labels'            => array( 'name' => __( 'Logs', 'wp-logging' ) ),
+            'public'            => false,
+            'query_var'         => false,
+            'rewrite'           => false,
+            'capability_type'   => 'post',
+            'supports'          => array( 'title', 'editor' ),
+            'can_export'        => false
+        ); 
+        register_post_type( 'sasm_logs', $log_args );
+ 
     }
 
     public function admin_scripts() {
@@ -60,18 +79,31 @@ class SASMAdmin {
 					<div class="ses-logs">
 						<?php 
 
-                            $file = SASM_PLUGIN_PATH . 'logs/sasm_logs.log';
+                            $the_query = new WP_Query( array(
+                                'post_parent'    => 0,
+                                'post_type'      => 'sasm_logs',
+                                'posts_per_page' => 100,
+                                'post_status'    => 'publish'
+                            ) );
+ 
+                            // The Loop
+                            if ( $the_query->have_posts() ) {
+        
+                                while ( $the_query->have_posts() ) {
 
-                            if(file_exists($file)){
+                                    $the_query->the_post();
+                                    
+                                    echo get_the_content() . '<br>';
                                 
-                                $data = explode("\n",file_get_contents($file));
+                                }
+ 
+                            } else {
+                                    
+                                echo 'No logs...';
 
-                                foreach(array_reverse($data) as $value) { 
-                                
-                                    echo $value."<br>";
-                                
-                                } 
                             }
+
+                            wp_reset_postdata();
 
                         ?>
 					</div>
@@ -127,25 +159,21 @@ class SASMAdmin {
 
 	   	}   
 
-	   	$file = SASM_PLUGIN_PATH . '/logs/sasm_logs.log';
-
-        if(file_exists($file)){
-
-            file_put_contents($file, '');
-
-            wp_send_json(array(
-                'status' => true, 
-                'message' => 'Logs cleared'
-            ));
-
-        }else{
-
-            wp_send_json(array(
-                'status' => true, 
-                'message' => 'Could not clear logs check files exists'
-            ));
-
+        $logs = get_posts(array(
+            'post_type' => 'sasm_logs',
+            'numberposts' => -1 
+        ));
+        
+        foreach ($logs as $log) {
+            
+            wp_delete_post( $log->ID, true );
+        
         }
+
+        wp_send_json(array(
+            'status' => true, 
+            'message' => 'Logs cleared'
+        ));
 
     }
 
