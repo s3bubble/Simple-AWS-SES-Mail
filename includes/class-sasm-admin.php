@@ -20,8 +20,6 @@ class SASMAdmin {
 
     public function register_post_type() {
  
-        /* logs post type */    
- 
         $log_args = array(
             'labels'            => array( 'name' => __( 'Logs', 'wp-logging' ) ),
             'public'            => false,
@@ -31,6 +29,7 @@ class SASMAdmin {
             'supports'          => array( 'title', 'editor' ),
             'can_export'        => false
         ); 
+
         register_post_type( 'sasm_logs', $log_args );
  
     }
@@ -72,9 +71,9 @@ class SASMAdmin {
 			<p>
 				<?php if(get_option( 'sasm_enable_logs' )){ ?>
 
-					<button id="ses-enable-logs">Disable logs</button>
-					<button id="ses-send-test-email">Send Test Email</button>
-					<button id="ses-clear-logs">Clear Logs</button>
+					<button id="ses-enable-logs"><?php _e( 'Disable logs', 'simple-aws-ses-mail' ); ?></button>
+					<button id="ses-send-test-email"><?php _e( 'Send Test Email', 'simple-aws-ses-mail' ); ?></button>
+					<button id="ses-clear-logs"><?php _e( 'Clear Logs', 'simple-aws-ses-mail' ); ?></button>
 
 					<div class="ses-logs">
 						<?php 
@@ -99,7 +98,7 @@ class SASMAdmin {
  
                             } else {
                                     
-                                echo 'No logs...';
+                                _e( 'No logs...', 'simple-aws-ses-mail' );
 
                             }
 
@@ -110,7 +109,7 @@ class SASMAdmin {
 
 				<?php }else{ ?>
 
-					<button id="ses-enable-logs">Enable logs</button>
+					<button id="ses-enable-logs"><?php _e( 'Enable logs', 'simple-aws-ses-mail' ); ?></button>
 
 				<?php } ?>
 			</p>

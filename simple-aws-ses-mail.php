@@ -1,13 +1,15 @@
 <?php 
 /**
- * Plugin Name:  Simple AWS SES Mail
- * Plugin URI:   https://github.com/s3bubble/Simple-AWS-SES-Mail.git
- * Description:  Send all your WordPress emails through the powerful AWS SES Mail service
- * Version:      0.0.1
- * Author:       SoBytes
- * Author URI:   https://github.com/s3bubble
- * License:      GPL-2.0+
- * License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ * Plugin Name: Simple AWS SES Mail
+ * Plugin URI:  https://github.com/s3bubble/Simple-AWS-SES-Mail.git
+ * Description: Send all your WordPress emails through the powerful AWS SES Mail service
+ * Version:     0.0.1
+ * Author:      SoBytes
+ * Author URI:  https://github.com/s3bubble
+ * License:     GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: 
+ * Domain Path: /languages
  */ 
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
