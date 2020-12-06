@@ -23,6 +23,10 @@ class SASMAdmin {
 
         add_action( 'wp_ajax_sasm_send_test', array( $this, 'send_test' ));
 
+        add_action( 'admin_post_sasm_form_add_details', array( $this, 'save_data' ));
+
+        add_action( 'admin_post_sasm_form_remove_details', array( $this, 'remove_data' ));
+
     }
 
     /**
@@ -93,60 +97,285 @@ class SASMAdmin {
     public function output_logs() {
     	
     	?>
-    	<div class = "wrap">
-			
+    	<div class="wrap">
+
 			<h1>
-				<?php esc_html_e( 'Simple AWS SES Mail Plugin logs.', 'my-plugin-textdomain' ); ?>
+				<?php esc_html_e( 'Simple AWS SES Mail Plugin logs.', 'simple-aws-ses-mail' ); ?>
 			</h1>
 
-			<p>
-				<?php if(get_option( 'sasm_enable_logs' )){ ?>
+            <div class="sasm-wrap-inner">
 
-					<button id="ses-enable-logs"><?php _e( 'Disable logs', 'simple-aws-ses-mail' ); ?></button>
-					<button id="ses-send-test-email"><?php _e( 'Send Test Email', 'simple-aws-ses-mail' ); ?></button>
-					<button id="ses-clear-logs"><?php _e( 'Clear Logs', 'simple-aws-ses-mail' ); ?></button>
-                    <button onClick="window.location.reload();"><?php _e( 'Refresh Logs', 'simple-aws-ses-mail' ); ?></button>
-					<div class="ses-logs">
-						<?php 
+                <div class="sasm-wrap-inner-col-left">
 
-                            $the_query = new WP_Query( array(
-                                'post_parent'    => 0,
-                                'post_type'      => 'sasm_logs',
-                                'posts_per_page' => 100,
-                                'post_status'    => 'publish'
-                            ) );
- 
-                            // The Loop
-                            if ( $the_query->have_posts() ) {
-        
-                                while ( $the_query->have_posts() ) {
+                    <div class="sasm-wrap-inner-col-space">
 
-                                    $the_query->the_post();
-                                    
-                                    echo get_the_content() . '<br>';
-                                
-                                }
- 
-                            } else {
-                                    
-                                _e( 'No logs...', 'simple-aws-ses-mail' );
+        			<?php 
 
-                            }
-
-                            wp_reset_postdata();
+                        $sasm_form_nonce = wp_create_nonce( 'sasm_set_form_nonce' ); 
 
                         ?>
-					</div>
 
-				<?php }else{ ?>
+                        <h2><?php _e( 'AWS IAM SES (Simple Email Service) Data', 'simple-aws-ses-mail' ); ?></h2>     
+                        <div class="nds_add_user_meta_form">
 
-					<button id="ses-enable-logs"><?php _e( 'Enable logs', 'simple-aws-ses-mail' ); ?></button>
+                            <?php if(get_option( 'sasm-encrypted-data' )){ ?>
 
-				<?php } ?>
-			</p>
+                            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="nds_add_user_meta_form" >          
 
-		</div>
+                                <input type="hidden" name="action" value="sasm_form_remove_details">
+                                <input type="hidden" name="sasm_form_nonce" value="<?php echo $sasm_form_nonce ?>" /> 
+
+                                <div class="sasm-alert"><?php _e( 'Your AWS details have been encrypted and saved they will not be displayed here send a test email and check your logs for any issues.', 'simple-aws-ses-mail' ); ?></div> 
+                                                 
+                                <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Remove"></p>
+                            </form>
+
+                        <?php }else{ ?>
+
+                            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="nds_add_user_meta_form" >          
+
+                                <input type="hidden" name="action" value="sasm_form_add_details">
+                                <input type="hidden" name="sasm_form_nonce" value="<?php echo $sasm_form_nonce ?>" />   
+
+                                <div>
+                                    <label for="email"> <?php _e('From Email', 'simple-aws-ses-mail'); ?> </label><br>
+                                    <input required type="text" name="sasm-email" placeholder="Enter From Email" />
+                                </div>
+
+                                <div>
+                                    <label for="name"> <?php _e('From Name', 'simple-aws-ses-mail'); ?> </label><br>
+                                    <input required type="text" name="sasm-name" placeholder="Enter From Name" />
+                                </div>
+
+                                <div>
+                                    <label for="region"> <?php _e('AWS Region', 'simple-aws-ses-mail'); ?> </label><br>
+                                    <input required type="text" name="sasm-region" placeholder="Enter AWS Region" />
+                                </div>
+
+                                <div>
+                                    <label for="key"> <?php _e('AWS Access Key', 'simple-aws-ses-mail'); ?> </label><br>
+                                    <input required type="text" name="sasm-key" placeholder="Enter AWS Access Key" />
+                                </div>
+
+                                <div>
+                                    <label for="secret"> <?php _e('AWS Secret Key', 'simple-aws-ses-mail'); ?> </label><br>
+                                    <input required type="text" name="sasm-secret" placeholder="Enter AWS Secret Key" />
+                                </div>
+                                                 
+                                <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Submit Form"></p>
+                            </form>
+
+                        <?php } ?>
+                     
+                        </div>
+
+                    </div> 
+
+                </div>
+            
+                <div class="sasm-wrap-inner-col-right">
+
+                    <div class="sasm-wrap-inner-col-space">
+
+                        <p>
+                            <?php if(get_option( 'sasm_enable_logs' )){ ?>
+
+                                <button id="ses-enable-logs"><?php _e( 'Disable logs', 'simple-aws-ses-mail' ); ?></button>
+                                <button id="ses-send-test-email"><?php _e( 'Send Test Email', 'simple-aws-ses-mail' ); ?></button>
+                                <button id="ses-clear-logs"><?php _e( 'Clear Logs', 'simple-aws-ses-mail' ); ?></button>
+                                <button onClick="window.location.reload();"><?php _e( 'Refresh Logs', 'simple-aws-ses-mail' ); ?></button>
+                                <div class="ses-logs">
+                                    <?php 
+
+                                        $the_query = new WP_Query( array(
+                                            'post_parent'    => 0,
+                                            'post_type'      => 'sasm_logs',
+                                            'posts_per_page' => 100,
+                                            'post_status'    => 'publish'
+                                        ) );
+             
+                                        // The Loop
+                                        if ( $the_query->have_posts() ) {
+                    
+                                            while ( $the_query->have_posts() ) {
+
+                                                $the_query->the_post();
+                                                
+                                                echo get_the_content() . '<br>';
+                                            
+                                            }
+             
+                                        } else {
+                                                
+                                            _e( 'No logs...', 'simple-aws-ses-mail' );
+
+                                        }
+
+                                        wp_reset_postdata();
+
+                                    ?>
+                                </div>
+
+                            <?php }else{ ?>
+
+                                <button id="ses-enable-logs"><?php _e( 'Enable logs', 'simple-aws-ses-mail' ); ?></button>
+
+                            <?php } ?>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+		</div><!-- end wrapper -->
 		<?php
+    }
+
+    /**
+     * Save the AWS details in a wordpress option
+     *
+     * @param null
+     * @return null
+     */
+    public function save_data() {
+            
+        if( isset( $_POST['sasm_form_nonce'] ) && wp_verify_nonce( $_POST['sasm_form_nonce'], 'sasm_set_form_nonce') ) {
+
+                // sanitize the input
+                $email = $_POST['sasm-email'];
+
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    
+                    wp_die( __( 'Invalid From Email', 'simple-aws-ses-mail' ), __( 'Error', 'simple-aws-ses-mail' ), array(
+                            'response'  => 403,
+                            'back_link' => 'admin.php?page=' . 'simple-aws-ses-mail',
+
+                    ));
+
+                }
+                
+                $name = $_POST['sasm-name'];
+
+                if (empty($name)) {
+                    
+                    wp_die( __( 'Invalid From Name', 'simple-aws-ses-mail' ), __( 'Error', 'simple-aws-ses-mail' ), array(
+                            'response'  => 403,
+                            'back_link' => 'admin.php?page=' . 'simple-aws-ses-mail',
+
+                    ));
+
+                }
+
+                $region = $_POST['sasm-region'];
+
+                if (empty($region)) {
+                    
+                    wp_die( __( 'Invalid AWS Region', 'simple-aws-ses-mail' ), __( 'Error', 'simple-aws-ses-mail' ), array(
+                            'response'  => 403,
+                            'back_link' => 'admin.php?page=' . 'simple-aws-ses-mail',
+
+                    ));
+
+                }
+
+                $key = $_POST['sasm-key'];
+
+                if (empty($key)) {
+                    
+                    wp_die( __( 'Invalid AWS Access Key', 'simple-aws-ses-mail' ), __( 'Error', 'simple-aws-ses-mail' ), array(
+                            'response'  => 403,
+                            'back_link' => 'admin.php?page=' . 'simple-aws-ses-mail',
+
+                    ));
+
+                }
+
+                $secret = $_POST['sasm-secret'];
+
+                if (empty($secret)) {
+                    
+                    wp_die( __( 'Invalid AWS Secret Key', 'simple-aws-ses-mail' ), __( 'Error', 'simple-aws-ses-mail' ), array(
+                            'response'  => 403,
+                            'back_link' => 'admin.php?page=' . 'simple-aws-ses-mail',
+
+                    ));
+
+                }
+
+                $user_data = serialize([
+                    'email' => $email,
+                    'name' => $name,
+                    'region' => $region,
+                    'key' => $key,
+                    'secret' => $secret
+                ]);
+
+                $ciphering = "AES-128-CTR";
+
+                // Use OpenSSl Encryption method 
+                $iv_length = openssl_cipher_iv_length($ciphering); 
+                $options = 0; 
+                  
+                // Non-NULL Initialization Vector for encryption 
+                $encryption_iv = '1234567891011121'; 
+                  
+                // Store the encryption key 
+                $encryption_key = AUTH_SALT; 
+                  
+                // Use openssl_encrypt() function to encrypt the data 
+                $encryption = openssl_encrypt($user_data, $ciphering, $encryption_key, $options, $encryption_iv);
+
+                update_option( 'sasm-encrypted-data', $encryption );
+
+                // add the admin notice
+                $admin_notice = "success";
+
+                // redirect the user to the appropriate page
+                wp_redirect(admin_url('tools.php?page=output_logs'));
+
+                exit; 
+            
+            }else {
+                
+                wp_die( __( 'Invalid nonce specified', 'simple-aws-ses-mail' ), __( 'Error', 'simple-aws-ses-mail' ), array(
+                            'response'  => 403,
+                            'back_link' => 'admin.php?page=' . 'simple-aws-ses-mail',
+
+                    ) );
+
+            }
+
+    }
+
+    /**
+     * Remove the AWS details in the wordpress option
+     *
+     * @param null
+     * @return null
+    */
+    public function remove_data() {
+            
+        if( isset( $_POST['sasm_form_nonce'] ) && wp_verify_nonce( $_POST['sasm_form_nonce'], 'sasm_set_form_nonce') ) {
+
+            delete_option( 'sasm-encrypted-data' );
+
+            // redirect the user to the appropriate page
+            wp_redirect(admin_url('tools.php?page=output_logs'));
+
+            exit;
+
+        }else {
+                
+            wp_die( __( 'Invalid nonce specified', 'simple-aws-ses-mail' ), __( 'Error', 'simple-aws-ses-mail' ), array(
+                        'response'  => 403,
+                        'back_link' => 'tools.php?page=output_logs',
+
+                ) );
+
+        }
+
     }
 
     /**
@@ -231,9 +460,20 @@ class SASMAdmin {
 	      	
 	      	exit('No naughty business please');
 
-	   	}   
+	   	}
 
-	   	$to = SASM_FROM_EMAIL;
+        $email = $_POST['email']; 
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+            wp_send_json(array(
+                'status' => false, 
+                'message' => 'Empty value or email is not valid check and try again!'
+            ));
+
+        }   
+
+	   	$to = $email;
 		$subject = 'SES TEST EMAIL';
 		$body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

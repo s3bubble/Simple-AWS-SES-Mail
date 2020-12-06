@@ -1,6 +1,6 @@
 <?php 
 /**
- * Plugin Name: Simple AWS SES Mail
+ * Plugin Name: FREE Simple AWS SES Mail
  * Plugin URI:  https://github.com/s3bubble/Simple-AWS-SES-Mail.git
  * Description: Send all your WordPress emails through the powerful AWS SES Mail service
  * Version:     0.0.1
@@ -27,9 +27,7 @@ if ( ! function_exists( 'wp_mail' ) ) {
 		
 		$mail = new SASMMail();
 
-		$result = $mail->send_raw_wp_mail( $to, $subject, $message, $headers, $attachments );
-
-		return $result;
+		return $mail->send_raw_wp_mail( $to, $subject, $message, $headers, $attachments );
 
 	}
 

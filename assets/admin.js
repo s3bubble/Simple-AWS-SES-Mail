@@ -22,25 +22,43 @@ jQuery(document).ready( function($) {
 
    });
 
-   $("#ses-send-test-email").on('click', function(_evt){
+    $('#ses-send-test-email').on('click', function(_evt){
 
-      _evt.preventDefault(); 
+        _evt.preventDefault(); 
 
-      $.ajax({
-         type : "post",
-         dataType : "json",
-         url : sasm_admin.ajaxurl,
-         data : {
-            action: "sasm_send_test", 
-            nonce: sasm_admin.nonce
-         },
-         success: function(response) {
+        var email = prompt('Please enter your test email', '');
 
-            alert(response.message);
-            location.reload();
+        if (email == null || email == '') {
+        
+            alert('Cancelled');
+    
+        } else {
 
-         }
-      });   
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                url : sasm_admin.ajaxurl,
+                data : {
+                    action: 'sasm_send_test', 
+                    email: email, 
+                    nonce: sasm_admin.nonce
+                },
+                success: function(response) {
+
+                    alert(email + ' ' + response.message);
+
+                    location.reload();
+
+                },
+                error: function(response) {
+
+                    alert('Error sending email to ' + email + '!');
+                    location.reload();
+
+                }
+          }); 
+    
+        }
 
    });
 

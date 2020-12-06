@@ -19,3 +19,46 @@
     overflow-y: scroll;
     font-family: monospace;
 }
+
+.sasm-alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.sasm-wrap-inner {
+    width: 100%;
+    height: 100%;
+    margin:0;
+    padding:0;
+}
+
+.sasm-wrap-inner-col-left {
+    width: 30%;
+    float: left;
+    height: 100%;
+}
+
+.sasm-wrap-inner-col-right {
+    width: 70%;
+    float: right;
+    height: 100%;
+}
+
+.sasm-wrap-inner-col-space {
+    padding: 20px;
+}
+
+.sasm-wrap-inner label {
+    width: 100%;
+}
+
+.sasm-wrap-inner input {
+    width: 100%;
+    margin-bottom: 10px;
+}
