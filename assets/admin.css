@@ -58,7 +58,7 @@
     width: 100%;
 }
 
-.sasm-wrap-inner input {
+.sasm-wrap-inner input, .sasm-wrap-inner select {
     width: 100%;
     margin-bottom: 10px;
 }

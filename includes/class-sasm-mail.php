@@ -25,27 +25,27 @@ class SASMMail {
 
             $details = $this->encrypted_ses_data(get_option( 'sasm-encrypted-data' ));
 
-            $email = $details['email'];
+            $email = empty($details['email']) ? '' : $details['email']; 
 
-            $name = $details['name'];
+            $name = empty($details['name']) ? '' : $details['name'];
 
-            $region = $details['region'];
+            $region = empty($details['region']) ? '' : $details['region'];
 
-            $key = $details['key'];
+            $key = empty($details['key']) ? '' : $details['key'];
 
-            $secret = $details['secret'];
+            $secret = empty($details['secret']) ? '' : $details['secret'];
 
-        }else{
+        }else{ 
 
-            $email = defined( 'SASM_FROM_EMAIL' );
+            $email = !defined( 'SASM_FROM_EMAIL' ) ? '' : SASM_FROM_EMAIL;
 
-            $name = defined( 'SASM_FROM_NAME' );
+            $name = !defined( 'SASM_FROM_NAME' ) ? '' : SASM_FROM_NAME;
 
-            $region = defined( 'SASM_REGION' );
+            $region = !defined( 'SASM_REGION' ) ? '' : SASM_REGION; 
 
-            $key = defined( 'SASM_KEY' );
+            $key = !defined( 'SASM_KEY' ) ? '' : SASM_KEY;
 
-            $secret = defined( 'SASM_SECRET' );
+            $secret = !defined( 'SASM_SECRET' ) ? '' : SASM_SECRET;
 
         }
 
