@@ -1,9 +1,9 @@
-=== FREE Simple AWS SES Mail ===
+=== Simple AWS SES Mail ===
 Contributors: S3Bubble
 Donate link: https://s3bubble.com
 Tags: Amazon Web Services, SES
 Requires at least: 4.0
-Tested up to: 5.5.1 
+Tested up to: 5.6 
 Requires PHP: 5.6 
 Stable tag: 0.0.1
 License: GPLv2 or later

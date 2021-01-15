@@ -86,9 +86,11 @@ class SASMAdmin {
      */
     public function admin_menu() {
 
-        $role = 'edit_posts'; //!empty(get_option( 'sasm-options-role' )) ? get_option( 'sasm-options-role' ) : 'manage_options';
+        $role = !empty(get_option( 'sasm-options-role' )) ? get_option( 'sasm-options-role' ) : 'manage_options';
 
         add_menu_page( 'SES Email', 'SES Email', $role, 'sasm-email', array( $this, 'connection_menu' ), 'dashicons-email', 30 );
+
+        add_submenu_page( 'sasm-email', 'Connection', 'Connection', $role, 'sasm-email', array( $this, 'connection_menu' ));
 
         add_submenu_page( 'sasm-email', 'Logs', 'Logs', $role, 'sasm-email-logs', array( $this, 'logs_menu' ) );
     
@@ -198,6 +200,7 @@ class SASMAdmin {
                                         <?php if(get_option( 'sasm-options-role' )){ 
 
                                             $label = 'Admin';
+                                            
                                             $value = get_option( 'sasm-options-role' );
 
                                             if(get_option( 'sasm-options-role' ) === 'edit_posts'){
@@ -352,7 +355,7 @@ define( 'SASM_SECRET', '' );</pre>
             
         if( isset( $_POST['sasm_form_nonce'] ) && wp_verify_nonce( $_POST['sasm_form_nonce'], 'sasm_set_form_nonce') ) {
 
-            $role = $_POST['sasm-role'];
+            $role = sanitize_text_field($_POST['sasm-role']);
 
             if (empty($role)) {
                 
@@ -394,7 +397,7 @@ define( 'SASM_SECRET', '' );</pre>
         if( isset( $_POST['sasm_form_nonce'] ) && wp_verify_nonce( $_POST['sasm_form_nonce'], 'sasm_set_form_nonce') ) {
 
                 // sanitize the input
-                $email = $_POST['sasm-email'];
+                $email = sanitize_email($_POST['sasm-email']);
 
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     
@@ -406,7 +409,7 @@ define( 'SASM_SECRET', '' );</pre>
 
                 }
                 
-                $name = $_POST['sasm-name'];
+                $name = sanitize_text_field($_POST['sasm-name']);
 
                 if (empty($name)) {
                     
@@ -418,7 +421,7 @@ define( 'SASM_SECRET', '' );</pre>
 
                 }
 
-                $region = $_POST['sasm-region'];
+                $region = sanitize_text_field($_POST['sasm-region']);
 
                 if (empty($region)) {
                     
@@ -430,7 +433,7 @@ define( 'SASM_SECRET', '' );</pre>
 
                 }
 
-                $key = $_POST['sasm-key'];
+                $key = sanitize_text_field($_POST['sasm-key']);
 
                 if (empty($key)) {
                     
@@ -442,7 +445,7 @@ define( 'SASM_SECRET', '' );</pre>
 
                 }
 
-                $secret = $_POST['sasm-secret'];
+                $secret = sanitize_text_field($_POST['sasm-secret']);
 
                 if (empty($secret)) {
                     
@@ -634,7 +637,7 @@ define( 'SASM_SECRET', '' );</pre>
     <meta name="color-scheme" content="light dark" />
     <meta name="supported-color-schemes" content="light dark" />
     <title></title>
-    <style type="text/css" rel="stylesheet" media="all">@import url(https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&amp;display=swap);body{width:100%!important;height:100%;margin:0;-webkit-text-size-adjust:none}a{color:#3869d4}a img{border:none}td{word-break:break-word}.preheader{display:none!important;visibility:hidden;mso-hide:all;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden}body,td,th{font-family:"Nunito Sans",Helvetica,Arial,sans-serif}h1{margin-top:0;color:#333;font-size:22px;font-weight:700;text-align:left}h2{margin-top:0;color:#333;font-size:16px;font-weight:700;text-align:left}h3{margin-top:0;color:#333;font-size:14px;font-weight:700;text-align:left}td,th{font-size:16px}blockquote,ol,p,ul{margin:.4em 0 1.1875em;font-size:16px;line-height:1.625}p.sub{font-size:13px}.align-right{text-align:right}.align-left{text-align:left}.align-center{text-align:center}.button{background-color:#3869d4;border-top:10px solid #3869d4;border-right:18px solid #3869d4;border-bottom:10px solid #3869d4;border-left:18px solid #3869d4;display:inline-block;color:#fff;text-decoration:none;border-radius:3px;box-shadow:0 2px 3px rgba(0,0,0,.16);-webkit-text-size-adjust:none;box-sizing:border-box}.button--green{background-color:#22bc66;border-top:10px solid #22bc66;border-right:18px solid #22bc66;border-bottom:10px solid #22bc66;border-left:18px solid #22bc66}.button--red{background-color:#ff6136;border-top:10px solid #ff6136;border-right:18px solid #ff6136;border-bottom:10px solid #ff6136;border-left:18px solid #ff6136}@media only screen and (max-width:500px){.button{width:100%!important;text-align:center!important}}.attributes{margin:0 0 21px}.attributes_content{background-color:#f4f4f7;padding:16px}.attributes_item{padding:0}.related{width:100%;margin:0;padding:25px 0 0 0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.related_item{padding:10px 0;color:#cbcccf;font-size:15px;line-height:18px}.related_item-title{display:block;margin:.5em 0 0}.related_item-thumb{display:block;padding-bottom:10px}.related_heading{border-top:1px solid #cbcccf;text-align:center;padding:25px 0 10px}.discount{width:100%;margin:0;padding:24px;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0;background-color:#f4f4f7;border:2px dashed #cbcccf}.discount_heading{text-align:center}.discount_body{text-align:center;font-size:15px}.social{width:auto}.social td{padding:0;width:auto}.social_icon{height:20px;margin:0 8px 10px 8px;padding:0}.purchase{width:100%;margin:0;padding:35px 0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.purchase_content{width:100%;margin:0;padding:25px 0 0 0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.purchase_item{padding:10px 0;color:#51545e;font-size:15px;line-height:18px}.purchase_heading{padding-bottom:8px;border-bottom:1px solid #eaeaec}.purchase_heading p{margin:0;color:#85878e;font-size:12px}.purchase_footer{padding-top:15px;border-top:1px solid #eaeaec}.purchase_total{margin:0;text-align:right;font-weight:700;color:#333}.purchase_total--label{padding:0 15px 0 0}body{background-color:#f2f4f6;color:#51545e}p{color:#51545e}.email-wrapper{width:100%;margin:0;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0;background-color:#f2f4f6}.email-content{width:100%;margin:0;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.email-masthead{padding:25px 0;text-align:center}.email-masthead_logo{width:94px}.email-masthead_name{font-size:16px;font-weight:700;color:#a8aaaf;text-decoration:none;text-shadow:0 1px 0 #fff}.email-body{width:100%;margin:0;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.email-body_inner{width:570px;margin:0 auto;padding:0;-premailer-width:570px;-premailer-cellpadding:0;-premailer-cellspacing:0;background-color:#fff}.email-footer{width:570px;margin:0 auto;padding:0;-premailer-width:570px;-premailer-cellpadding:0;-premailer-cellspacing:0;text-align:center}.email-footer p{color:#a8aaaf}.body-action{width:100%;margin:30px auto;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0;text-align:center}.body-sub{margin-top:25px;padding-top:25px;border-top:1px solid #eaeaec}.content-cell{padding:45px}@media only screen and (max-width:600px){.email-body_inner,.email-footer{width:100%!important}}@media (prefers-color-scheme:dark){.email-body,.email-body_inner,.email-content,.email-footer,.email-masthead,.email-wrapper,body{background-color:#333!important;color:#fff!important}blockquote,h1,h2,h3,ol,p,ul{color:#fff!important}.attributes_content,.discount{background-color:#222!important}.email-masthead_name{text-shadow:none!important}}:root{color-scheme:light dark;supported-color-schemes:light dark}body{font-family:"Nunito Sans",Helvetica,Arial,sans-serif}body{background-color:#f2f4f6;color:#51545e}</style>
+    <style type="text/css" rel="stylesheet" media="all">body{width:100%!important;height:100%;margin:0;-webkit-text-size-adjust:none}a{color:#3869d4}a img{border:none}td{word-break:break-word}.preheader{display:none!important;visibility:hidden;mso-hide:all;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden}body,td,th{font-family:"Nunito Sans",Helvetica,Arial,sans-serif}h1{margin-top:0;color:#333;font-size:22px;font-weight:700;text-align:left}h2{margin-top:0;color:#333;font-size:16px;font-weight:700;text-align:left}h3{margin-top:0;color:#333;font-size:14px;font-weight:700;text-align:left}td,th{font-size:16px}blockquote,ol,p,ul{margin:.4em 0 1.1875em;font-size:16px;line-height:1.625}p.sub{font-size:13px}.align-right{text-align:right}.align-left{text-align:left}.align-center{text-align:center}.button{background-color:#3869d4;border-top:10px solid #3869d4;border-right:18px solid #3869d4;border-bottom:10px solid #3869d4;border-left:18px solid #3869d4;display:inline-block;color:#fff;text-decoration:none;border-radius:3px;box-shadow:0 2px 3px rgba(0,0,0,.16);-webkit-text-size-adjust:none;box-sizing:border-box}.button--green{background-color:#22bc66;border-top:10px solid #22bc66;border-right:18px solid #22bc66;border-bottom:10px solid #22bc66;border-left:18px solid #22bc66}.button--red{background-color:#ff6136;border-top:10px solid #ff6136;border-right:18px solid #ff6136;border-bottom:10px solid #ff6136;border-left:18px solid #ff6136}@media only screen and (max-width:500px){.button{width:100%!important;text-align:center!important}}.attributes{margin:0 0 21px}.attributes_content{background-color:#f4f4f7;padding:16px}.attributes_item{padding:0}.related{width:100%;margin:0;padding:25px 0 0 0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.related_item{padding:10px 0;color:#cbcccf;font-size:15px;line-height:18px}.related_item-title{display:block;margin:.5em 0 0}.related_item-thumb{display:block;padding-bottom:10px}.related_heading{border-top:1px solid #cbcccf;text-align:center;padding:25px 0 10px}.discount{width:100%;margin:0;padding:24px;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0;background-color:#f4f4f7;border:2px dashed #cbcccf}.discount_heading{text-align:center}.discount_body{text-align:center;font-size:15px}.social{width:auto}.social td{padding:0;width:auto}.social_icon{height:20px;margin:0 8px 10px 8px;padding:0}.purchase{width:100%;margin:0;padding:35px 0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.purchase_content{width:100%;margin:0;padding:25px 0 0 0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.purchase_item{padding:10px 0;color:#51545e;font-size:15px;line-height:18px}.purchase_heading{padding-bottom:8px;border-bottom:1px solid #eaeaec}.purchase_heading p{margin:0;color:#85878e;font-size:12px}.purchase_footer{padding-top:15px;border-top:1px solid #eaeaec}.purchase_total{margin:0;text-align:right;font-weight:700;color:#333}.purchase_total--label{padding:0 15px 0 0}body{background-color:#f2f4f6;color:#51545e}p{color:#51545e}.email-wrapper{width:100%;margin:0;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0;background-color:#f2f4f6}.email-content{width:100%;margin:0;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.email-masthead{padding:25px 0;text-align:center}.email-masthead_logo{width:94px}.email-masthead_name{font-size:16px;font-weight:700;color:#a8aaaf;text-decoration:none;text-shadow:0 1px 0 #fff}.email-body{width:100%;margin:0;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0}.email-body_inner{width:570px;margin:0 auto;padding:0;-premailer-width:570px;-premailer-cellpadding:0;-premailer-cellspacing:0;background-color:#fff}.email-footer{width:570px;margin:0 auto;padding:0;-premailer-width:570px;-premailer-cellpadding:0;-premailer-cellspacing:0;text-align:center}.email-footer p{color:#a8aaaf}.body-action{width:100%;margin:30px auto;padding:0;-premailer-width:100%;-premailer-cellpadding:0;-premailer-cellspacing:0;text-align:center}.body-sub{margin-top:25px;padding-top:25px;border-top:1px solid #eaeaec}.content-cell{padding:45px}@media only screen and (max-width:600px){.email-body_inner,.email-footer{width:100%!important}}@media (prefers-color-scheme:dark){.email-body,.email-body_inner,.email-content,.email-footer,.email-masthead,.email-wrapper,body{background-color:#333!important;color:#fff!important}blockquote,h1,h2,h3,ol,p,ul{color:#fff!important}.attributes_content,.discount{background-color:#222!important}.email-masthead_name{text-shadow:none!important}}:root{color-scheme:light dark;supported-color-schemes:light dark}body{font-family:"Nunito Sans",Helvetica,Arial,sans-serif}body{background-color:#f2f4f6;color:#51545e}</style>
   </head>
   <body style="width: 100% !important; height: 100%; -webkit-text-size-adjust: none; font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; background-color: #F2F4F6; color: #51545E; margin: 0;" bgcolor="#F2F4F6">
     <span class="preheader" style="display: none !important; visibility: hidden; mso-hide: all; font-size: 1px; line-height: 1px; max-height: 0; max-width: 0; opacity: 0; overflow: hidden;">This is example text for the preheader set via the YAML front-matter for each email.</span>
