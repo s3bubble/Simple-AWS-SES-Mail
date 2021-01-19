@@ -27,7 +27,7 @@ class SASMMail {
 
             $email = empty($details['email']) ? '' : $details['email']; 
 
-            $name = empty($details['name']) ? '' : $details['name'];
+            $name = empty($details['name']) ? '' : $details['name']; 
 
             $region = empty($details['region']) ? '' : $details['region'];
 

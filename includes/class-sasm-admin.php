@@ -615,7 +615,7 @@ define( 'SASM_SECRET', '' );</pre>
 
 	   	}
 
-        $email = $_POST['email']; 
+        $email = sanitize_email($_POST['email']); 
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
