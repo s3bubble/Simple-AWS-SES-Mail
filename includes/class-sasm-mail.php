@@ -91,7 +91,7 @@ class SASMMail {
 
         if(!empty($attachments)){
 
-            foreach ($attachments as $key => $attachment) {
+            foreach ($attachments as $attachment) {
                 
                 $phpmailer->addAttachment($attachment);
 
